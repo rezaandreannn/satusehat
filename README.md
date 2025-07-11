@@ -60,12 +60,13 @@ $result = $patient->searchByIHSNumber($ihsNumber);
         "rt" => "02",
         "rw" => "02",
 
-        "mobile" => "08123456789",
-        "phone" => "+622123456789",
-        "email" => "john.smith@xyz.com",
+        "mobile" => "your_mobile",
+        "phone" => "your_phone",
+        "email" => "your_email@xyza.com",
         "maritalStatus" => "M",
         "maritalStatusText" => "Married",
 
+        # Relashionship
         "contactName" => "Jane Smith",
         "contactPhone" => "0690383372",
         "contactRelationship" => "C",
