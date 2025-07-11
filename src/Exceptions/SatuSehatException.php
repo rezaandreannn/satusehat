@@ -1,6 +1,6 @@
 <?php
 
-namespace Vendor\SatuSehat\Exceptions;
+namespace Rezaandreannn\SatuSehat\Exceptions;
 
 use Exception;
 
