@@ -26,7 +26,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Rezaandreannn\\SatuSehat\\Providers\\SatuSehatServiceProvider"
+                "Rezaandreannn\\SatuSehat\\SatuSehatServiceProvider"
             ],
             "aliases": {
                 "SatuSehat": "Rezaandreannn\\SatuSehat\\Facades\\SatuSehat"
