@@ -41,4 +41,37 @@ $result = $patient->searchByNikAndName($nik, $name);
 # Get By IHS Number
 $ihsNumber = 'your_ihs_number'
 $result = $patient->searchByIHSNumber($ihsNumber);
+
+# Post Patient To SatuSehat
+ $data = [
+        "nik" => "your_nik",
+        "name" => "John Smith 11",
+        "gender" => "female",
+        "birthDate" => "1945-11-17",
+        "alamat" => "Gd. Prof. Dr. Sujudi Lt.5, Jl. H.R. Rasuna Said",
+        "postalCode" => "12950",
+
+        # Master Data API - APIGEE (v2.0) (PUBLIC)
+        "city" => "Jakarta",
+        "provinceCode" => "31",
+        "cityCode" => "3174",
+        "districtCode" => "317406",
+        "villageCode" => "3174061001",
+        "rt" => "02",
+        "rw" => "02",
+
+        "mobile" => "08123456789",
+        "phone" => "+622123456789",
+        "email" => "john.smith@xyz.com",
+        "maritalStatus" => "M",
+        "maritalStatusText" => "Married",
+
+        "contactName" => "Jane Smith",
+        "contactPhone" => "0690383372",
+        "contactRelationship" => "C",
+
+        "birthPlaceCity" => "Jakarta",
+        "citizenship" => "WNI"
+    ];
+$result = $patient->create($data);
 ```
