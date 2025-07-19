@@ -9,11 +9,13 @@ class PatientService
 {
     protected $satuSehat;
     protected $fhir;
+    protected $endpoint;
 
     public function __construct()
     {
         $this->satuSehat = new SatuSehatService();
         $this->fhir = new PatientFHIR();
+        $this->endpoint = '/fhir-r4/v1/Patient';
     }
 
     /**
@@ -21,22 +23,61 @@ class PatientService
      */
     public function searchByNIK(string $nik): array
     {
-        $endpoint = '/fhir-r4/v1/Patient';
         $params = [
             'identifier' => 'https://fhir.kemkes.go.id/id/nik|' . $nik
         ];
-        return $this->satuSehat->get($endpoint, $params);
+        return $this->satuSehat->get($this->endpoint, $params);
     }
 
     /**
-     * Cari pasien berdasarkan NIK dan nama
+     * Cari pasien berdasarkan NIK dan name
      */
     public function searchByNikAndName(string $nik, string $name): array
     {
-        return $this->satuSehat->get('/fhir-r4/v1/Patient', [
+        $params = [
             'identifier' => 'https://fhir.kemkes.go.id/id/nik|' . $nik,
             'name' => $name
-        ]);
+        ];
+        return $this->satuSehat->get($this->endpoint, $params);
+    }
+
+    /**
+     * Cari pasien berdasarkan NIK, Name, Birthdate
+     */
+    public function searchByNikNameBirthdate(string $nik, string $name, string $birthdate): array
+    {
+        $params = [
+            'identifier' => 'https://fhir.kemkes.go.id/id/nik|' . $nik,
+            'name' => $name,
+            'birthdate' => $birthdate
+        ];
+        return $this->satuSehat->get($this->endpoint, $params);
+    }
+
+    /**
+     * Cari pasien berdasarkan Name, Birthdate, Gender
+     */
+    public function searchByNameBirthdateGender(string $name, string $birthdate, string $gender): array
+    {
+        $params = [
+            'name' => $name,
+            'birthdate' => $birthdate,
+            'gender' => $gender
+        ];
+        return $this->satuSehat->get($this->endpoint, $params);
+    }
+
+    /**
+     * Cari pasien bayi berdasarkan NIK Ibu
+     */
+    public function searchBayiByNIKIbu(string $nikIbu, string $birthdateBayi): array
+    {
+        $params = [
+            "identifier" => 'https://fhir.kemkes.go.id/id/nik-ibu|' . $nikIbu,
+            "birthdate" => $birthdateBayi
+        ];
+
+        return $this->satuSehat->get($this->endpoint, $params);
     }
 
     /**
@@ -51,7 +92,7 @@ class PatientService
     /**
      * Tambah pasien baru ke SatuSehat
      */
-    public function create(array $data): array
+    public function createByNik(array $data): array
     {
         $endpoint = '/fhir-r4/v1/Patient';
         $payload = $this->fhir->format($data);
