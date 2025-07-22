@@ -20,6 +20,7 @@ class PatientService
 
     /**
      * Cari pasien berdasarkan NIK
+     * @param $nik
      */
     public function searchByNIK(string $nik): array
     {
@@ -31,6 +32,7 @@ class PatientService
 
     /**
      * Cari pasien berdasarkan NIK dan name
+     * @param $nik, $name
      */
     public function searchByNikAndName(string $nik, string $name): array
     {
@@ -43,6 +45,7 @@ class PatientService
 
     /**
      * Cari pasien berdasarkan NIK, Name, Birthdate
+     * @param $nik, $name, $birthdate
      */
     public function searchByNikNameBirthdate(string $nik, string $name, string $birthdate): array
     {
@@ -56,6 +59,7 @@ class PatientService
 
     /**
      * Cari pasien berdasarkan Name, Birthdate, Gender
+     * @param $name, $birthdate, $gender
      */
     public function searchByNameBirthdateGender(string $name, string $birthdate, string $gender): array
     {
@@ -69,6 +73,7 @@ class PatientService
 
     /**
      * Cari pasien bayi berdasarkan NIK Ibu
+     * @param $nikIbu, $birthdateBayi
      */
     public function searchBayiByNIKIbu(string $nikIbu, string $birthdateBayi): array
     {
@@ -82,6 +87,7 @@ class PatientService
 
     /**
      * Cari Pasien berdasarkan IHS Number
+     * @param $ihs
      */
     public function searchByIHSNumber(string $ihs): array
     {
@@ -91,6 +97,7 @@ class PatientService
 
     /**
      * Tambah pasien baru ke SatuSehat
+     * @param $data
      */
     public function createByNik(array $data): array
     {

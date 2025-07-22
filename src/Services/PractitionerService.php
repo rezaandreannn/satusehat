@@ -17,6 +17,7 @@ class PractitionerService
 
     /**
      * Cari Practitioner Berdasarkan NIK
+     * @param $nik
      */
     public function searchByNIK(string $nik): array
     {
@@ -28,6 +29,7 @@ class PractitionerService
 
     /**
      * Cari Practitioner Berdasarkan NIK dan Name
+     * @param $nik, $name
      */
     public function searchByNikAndName(string $nik, string $name): array
     {
@@ -41,6 +43,7 @@ class PractitionerService
 
     /**
      * Cari Practitioner Berdasarkan Name, Gender, dan birthdate
+     * @param $name, $gender, $birthdate
      */
     public function searchByNameGenderBirthdate(string $name, string $gender, string $birthdate): array
     {
