@@ -21,11 +21,11 @@ SATUSEHAT_CLIENT_SECRET=your_client_secret
 SATUSEHAT_ORGANIZATION_ID=your_organization_id
 ```
 
-## Basic Usage
+<!-- ## Basic Usage -->
 
-### Patient Service
+<!-- ### Patient Service -->
 
-```bash
+<!-- ```bash
 use Rezaandreannn\SatuSehat\Services\PatientService;
 
 $patient = new PatientService();
@@ -75,4 +75,4 @@ $result = $patient->searchByIHSNumber($ihsNumber);
         "citizenship" => "WNI"
     ];
 $result = $patient->create($data);
-```
+``` -->
