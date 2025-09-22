@@ -8,7 +8,7 @@ class OrganizationFHIR
     {
         $formatted = [
             'resourceType' => 'Organization',
-            'active' => true
+            'active' => $data['active'] ?? 'true'
         ];
 
         if (!empty($data['id'])) {
@@ -52,23 +52,6 @@ class OrganizationFHIR
 
     private function formatTelecom($data): array
     {
-        // return array_filter([
-        //     [
-        //         'system' => 'phone',
-        //         'value' => $data['phone'] ?? null,
-        //         'use' => 'work'
-        //     ],
-        //     [
-        //         'system' => 'email',
-        //         'value' => $data['email'] ?? null,
-        //         'use' => 'work'
-        //     ],
-        //     [
-        //         'system' => 'url',
-        //         'value' => $data['url'] ?? null,
-        //         'use' => 'work'
-        //     ]
-        // ], fn($t) => $t['value'] !== null);
         $telecoms = [
             ['system' => 'phone', 'value' => $data['phone'] ?? null, 'use' => 'work'],
             ['system' => 'email', 'value' => $data['email'] ?? null, 'use' => 'work'],
