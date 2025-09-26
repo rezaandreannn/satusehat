@@ -39,9 +39,10 @@ class EncounterService
     /**
      * update encounter
      */
-    public function update(array $data)
+    public function update(array $data, $id)
     {
+        $endpoint = $this->endpoint . '/' . $id;
         $payload = $this->fhir->format($data);
-        return $this->satuSehat->put($this->endpoint, $payload);
+        return $this->satuSehat->put($endpoint, $payload);
     }
 }
