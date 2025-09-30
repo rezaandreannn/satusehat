@@ -29,6 +29,7 @@ class EncounterService
 
     /**
      * Create Encounter 
+     * @param $data
      */
     public function create(array $data)
     {
@@ -38,6 +39,7 @@ class EncounterService
 
     /**
      * update encounter
+     * @param $data, $id
      */
     public function update(array $data, $id)
     {

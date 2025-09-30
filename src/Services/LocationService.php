@@ -59,6 +59,7 @@ class LocationService
     public function update(array $data)
     {
         $payload = $this->fhir->format($data);
-        return $this->satuSehat->put($this->endpoint, $payload);
+        $endpoint = $this->endpoint . '/' . $data['id'];
+        return $this->satuSehat->put($endpoint, $payload);
     }
 }

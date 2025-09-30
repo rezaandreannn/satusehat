@@ -19,7 +19,7 @@ class OrganizationService
     }
 
     /**
-     * Cari pasien berdasarkan NIK
+     * Cari organization by id
      * @param $id
      */
     public function searchByID(string $id)
@@ -30,16 +30,22 @@ class OrganizationService
 
     /**
      * create organization
+     * @param $data
      */
-    public function create(array $data): array
+    public function create(array $data)
     {
         $payload = $this->fhir->format($data);
         return $this->satuSehat->post($this->endpoint, $payload);
     }
 
-    public function update(array $data): array
+    /**
+     * update organization
+     * @param $data
+     */
+    public function update(array $data)
     {
         $payload = $this->fhir->format($data);
-        return $this->satuSehat->put($this->endpoint, $payload);
+        $endpoint = $this->endpoint . '/' . $data['id'];
+        return $this->satuSehat->put($endpoint, $payload);
     }
 }

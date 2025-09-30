@@ -91,7 +91,7 @@ class PatientService
      */
     public function searchByIHSNumber(string $ihs): array
     {
-        $endpoint = "/fhir-r4/v1/Patient/{$ihs}";
+        $endpoint = $this->endpoint . '/' . $ihs;
         return $this->satuSehat->get($endpoint);
     }
 
@@ -101,9 +101,8 @@ class PatientService
      */
     public function createByNik(array $data): array
     {
-        $endpoint = '/fhir-r4/v1/Patient';
         $payload = $this->fhir->format($data);
-        return $this->satuSehat->post($endpoint, $payload);
+        return $this->satuSehat->post($this->endpoint, $payload);
     }
 
     /**
