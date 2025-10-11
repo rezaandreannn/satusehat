@@ -42,7 +42,7 @@ class SatuSehatToken extends Model
      */
     public function scopeValid($query)
     {
-        return $query->where('expires_at', '>', Carbon::now());
+        return $query->where('expires_at', '>', Carbon::now('Asia/Jakarta'));
     }
 
     /**

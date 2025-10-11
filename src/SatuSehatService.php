@@ -37,6 +37,7 @@ class SatuSehatService
         $validToken = SatuSehatToken::getValidToken($this->environment);
 
 
+
         if ($validToken) {
             $this->log('info', 'Token masih valid dari database');
             return $validToken->access_token;
@@ -55,9 +56,6 @@ class SatuSehatService
 
         try {
             $response = Http::asForm()
-                ->withHeaders([
-                    'Content-Type' => 'application/x-www-form-urlencoded',
-                ])
                 ->post($this->baseUrl . '/oauth2/v1/accesstoken?grant_type=client_credentials', [
                     'client_id' => $this->clientId,
                     'client_secret' => $this->clientSecret,
