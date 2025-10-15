@@ -2,52 +2,40 @@
 
 namespace Rezaandreannn\SatuSehat\Services;
 
-use Rezaandreannn\SatuSehat\FHIR\ObservationFHIR;
+use Rezaandreannn\SatuSehat\FHIR\AllergyIntoleranceFHIR;
 use Rezaandreannn\SatuSehat\SatuSehatService;
 
-class ObservationService
+class AllergyIntoleranceService
 {
     /**
-     * @var ObservationFHIR
+     * @var AllergyIntoleranceFHIR
      */
-    private $fhir;
+    protected $fhir;
 
     /**
      * @var SatuSehatService
      */
-    private $satuSehatService;
+    protected $satuSehatService;
 
     /**
      * @var string
      */
-    private $endpoint = '/fhir-r4/v1/Observation';
+    protected $endpoint = '/fhir-r4/v1/AllergyIntolerance';
 
     /**
      * Constructor
      *
-     * @param ObservationFHIR $fhir
+     * @param AllergyIntoleranceFHIR $fhir
      * @param SatuSehatService $satuSehatService
      */
-    public function __construct(ObservationFHIR $fhir, SatuSehatService $satuSehatService)
+    public function __construct(AllergyIntoleranceFHIR $fhir, SatuSehatService $satuSehatService)
     {
         $this->fhir = $fhir;
         $this->satuSehatService = $satuSehatService;
     }
 
     /**
-     * Search Observation by Encounter UUID
-     *
-     * @param string $encounterUuid
-     * @return mixed
-     */
-    public function getByEncounter(string $encounterUuid)
-    {
-        $params = ['encounter' => $encounterUuid];
-        return $this->satuSehatService->get($this->endpoint, $params);
-    }
-
-    /**
-     * Get Observation by ID
+     * Get AllergyIntolerance resource by ID
      *
      * @param string $id
      * @return mixed
@@ -59,7 +47,7 @@ class ObservationService
     }
 
     /**
-     * Create a new Observation resource
+     * Create new AllergyIntolerance resource
      *
      * @param array $data
      * @return mixed

@@ -7,18 +7,43 @@ use Rezaandreannn\SatuSehat\SatuSehatService;
 
 class ConditionService
 {
-    private $fhir, $endpoint, $satuSehatService;
+    /**
+     * @var ConditionFHIR
+     */
+    private $fhir;
 
-    public function __construct(ConditionFHIR $fhir)
+    /**
+     * @var SatuSehatService
+     */
+    private $satuSehatService;
+
+    /**
+     * @var string
+     */
+    private $endpoint = '/fhir-r4/v1/Condition';
+
+    /**
+     * Constructor
+     *
+     * @param ConditionFHIR $fhir
+     * @param SatuSehatService $satuSehatService
+     */
+    public function __construct(ConditionFHIR $fhir, SatuSehatService $satuSehatService)
     {
         $this->fhir = $fhir;
-        $this->endpoint = "/fhir-r4/v1/Condition";
-        $this->satuSehatService = new SatuSehatService();
+        $this->satuSehatService = $satuSehatService;
     }
 
+    /**
+     * Create a new Condition resource
+     *
+     * @param array $data
+     * @return mixed
+     */
     public function create($data)
     {
         $payload = $this->fhir->format($data);
+
         return $this->satuSehatService->post($this->endpoint, $payload);
     }
 }

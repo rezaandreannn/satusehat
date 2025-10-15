@@ -4,48 +4,78 @@ namespace Rezaandreannn\SatuSehat\Services;
 
 use Rezaandreannn\SatuSehat\FHIR\OrganizationFHIR;
 use Rezaandreannn\SatuSehat\SatuSehatService;
+use InvalidArgumentException;
 
 class OrganizationService
 {
-    protected $satuSehat;
-    protected $fhir;
-    protected $endpoint;
-
-    public function __construct()
-    {
-        $this->satuSehat = new SatuSehatService();
-        $this->fhir = new OrganizationFHIR();
-        $this->endpoint = '/fhir-r4/v1/Organization';
-    }
-
     /**
-     * Cari organization by id
-     * @param $id
+     * @var SatuSehatService
      */
-    public function searchByID(string $id)
+    protected $satuSehatService;
+
+    /**
+     * @var OrganizationFHIR
+     */
+    protected $fhir;
+
+    /**
+     * @var string
+     */
+    protected string $endpoint = '/fhir-r4/v1/Organization';
+
+    /**
+     * Constructor
+     *
+     * @param OrganizationFHIR  $fhir
+     * @param SatuSehatService  $satuSehatService
+     */
+    public function __construct(OrganizationFHIR $fhir, SatuSehatService $satuSehatService)
     {
-        $endpoint = $this->endpoint  . '/' . $id;
-        return $this->satuSehat->get($endpoint);
+        $this->fhir = $fhir;
+        $this->satuSehatService = $satuSehatService;
     }
 
     /**
-     * create organization
-     * @param $data
+     * Get Organization by ID
+     *
+     * @param string $id
+     * @return mixed
+     */
+    public function getById(string $id)
+    {
+        $endpoint = "{$this->endpoint}/{$id}";
+
+        return $this->satuSehatService->get($endpoint);
+    }
+
+    /**
+     * Create a new Organization resource
+     *
+     * @param array $data
+     * @return mixed
      */
     public function create(array $data)
     {
         $payload = $this->fhir->format($data);
-        return $this->satuSehat->post($this->endpoint, $payload);
+
+        return $this->satuSehatService->post($this->endpoint, $payload);
     }
 
     /**
-     * update organization
-     * @param $data
+     * Update an existing Organization resource
+     *
+     * @param array $data
+     * @return mixed
      */
     public function update(array $data)
     {
+        if (empty($data['id'])) {
+            throw new InvalidArgumentException('Organization ID is required for update.');
+        }
+
         $payload = $this->fhir->format($data);
-        $endpoint = $this->endpoint . '/' . $data['id'];
-        return $this->satuSehat->put($endpoint, $payload);
+        $endpoint = "{$this->endpoint}/{$data['id']}";
+
+        return $this->satuSehatService->put($endpoint, $payload);
     }
 }

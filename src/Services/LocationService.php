@@ -8,58 +8,84 @@ use Rezaandreannn\SatuSehat\SatuSehatService;
 
 class LocationService
 {
-    protected $satuSehat;
+    /**
+     * @var SatuSehatService
+     */
+    protected $satuSehatService;
+
+    /**
+     * @var LocationFHIR
+     */
     protected $fhir;
-    protected $endpoint;
 
-    public function __construct()
+    /**
+     * @var string
+     */
+    protected $endpoint = '/fhir-r4/v1/Location';
+
+    /**
+     * Constructor
+     *
+     * @param LocationFHIR $fhir
+     * @param SatuSehatService $satuSehatService
+     */
+    public function __construct(LocationFHIR $fhir, SatuSehatService $satuSehatService)
     {
-        $this->satuSehat = new SatuSehatService();
-        $this->fhir = new LocationFHIR();
-        $this->endpoint = '/fhir-r4/v1/Location';
+        $this->fhir = $fhir;
+        $this->satuSehatService = $satuSehatService;
     }
 
     /**
-     * Search location by ID
-     * @param $id
+     * Get Location by ID
+     *
+     * @param string $id
+     * @return mixed
      */
-    public function searchByID(string $id)
+    public function getById(string $id)
     {
-        $endpoint = $this->endpoint  . '/' . $id;
-        return $this->satuSehat->get($endpoint);
+        $endpoint = "{$this->endpoint}/{$id}";
+        return $this->satuSehatService->get($endpoint);
     }
 
+
     /**
-     * search by organization ID
-     * @param $orgId
+     * Get Locations by Organization ID
+     *
+     * @param string $organizationId
+     * @return mixed
      */
-    public function searchByOrganizationID(string $orgId)
+    public function getByOrganizationId(string $organizationId)
     {
-        $param = [
-            'organization' => $orgId
+        $params = [
+            'organization' => $organizationId,
         ];
 
-        return $this->satuSehat->get($this->endpoint, $param);
+        return $this->satuSehatService->get($this->endpoint, $params);
     }
 
     /**
-     * create  location
-     * @param $data
+     * Create a new Location resource
+     *
+     * @param array $data
+     * @return mixed
      */
     public function create(array $data)
     {
         $payload = $this->fhir->format($data);
-        return $this->satuSehat->post($this->endpoint, $payload);
+        return $this->satuSehatService->post($this->endpoint, $payload);
     }
 
     /**
-     * update  location
-     * @param $data
+     * Update an existing Location resource
+     *
+     * @param array $data
+     * @return mixed
      */
     public function update(array $data)
     {
         $payload = $this->fhir->format($data);
-        $endpoint = $this->endpoint . '/' . $data['id'];
-        return $this->satuSehat->put($endpoint, $payload);
+        $endpoint = "{$this->endpoint}/{$data['id']}";
+
+        return $this->satuSehatService->put($endpoint, $payload);
     }
 }
