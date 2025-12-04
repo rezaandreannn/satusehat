@@ -275,21 +275,35 @@ class SatuSehatService
             return;
         }
 
-        try {
-            SatuSehatLog::create([
-                'method' => strtoupper($method),
-                'endpoint' => $endpoint,
-                'request_data' => $requestData,
-                'response_data' => $responseData,
-                'status_code' => $statusCode,
-                'status' => $status,
-                'error_message' => $errorMessage,
-                'execution_time' => $executionTime,
-                'environment' => $this->environment,
-            ]);
-        } catch (\Exception $e) {
-            $this->log('error', 'Gagal menyimpan log: ' . $e->getMessage());
+        if (config('satusehat.logging.to_database', true)) {
+            try {
+                SatuSehatLog::create([
+                    'method' => strtoupper($method),
+                    'endpoint' => $endpoint,
+                    'request_data' => $requestData,
+                    'response_data' => $responseData,
+                    'status_code' => $statusCode,
+                    'status' => $status,
+                    'error_message' => $errorMessage,
+                    'execution_time' => $executionTime,
+                    'environment' => $this->environment,
+                ]);
+            } catch (\Exception $e) {
+                $this->log('error', 'Gagal menyimpan log: ' . $e->getMessage());
+            }
         }
+
+        $this->log('info', 'API Call', [
+            'method' => strtoupper($method),
+            'endpoint' => $endpoint,
+            'request' => $requestData,
+            'response' => $responseData,
+            'status_code' => $statusCode,
+            'status' => $status,
+            'error_message' => $errorMessage,
+            'execution_time' => $executionTime,
+            'environment' => $this->environment
+        ]);
     }
 
     /**

@@ -32,6 +32,7 @@ return [
     // Logging configuration
     'logging' => [
         'enabled' => env('SATUSEHAT_LOGGING_ENABLED', true),
+        'to_database' => env('SATUSEHAT_LOGGING_TO_DATABASE', true),
         'channel' => env('SATUSEHAT_LOG_CHANNEL', 'daily'),
         'level' => env('SATUSEHAT_LOG_LEVEL', 'info'),
     ],

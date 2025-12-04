@@ -4,7 +4,7 @@ namespace Rezaandreannn\SatuSehat\FHIR;
 
 class EncounterFHIR
 {
-    public function format(array $data, bool $isUpdate = false): array
+    public function format(array $data): array
     {
         $formatted = [
             'resourceType' => 'Encounter',
@@ -21,8 +21,15 @@ class EncounterFHIR
             'subject' => $this->formatSubject($data),
             'participant' => $this->formatParticipant($data),
             'period' => $this->formatPeriodStart($data),
-            'location' => $this->formatLocation($data),
-            'statusHistory' => $this->formatStatusHistory($data),
+            'location' => $this->formatLocation($data)
+        ];
+
+        if (($data['status'] ?? null) === 'finished') {
+            $formatted['diagnosis'] = $this->formatDiagnosis($data);
+        }
+
+        $formatted += [
+            'statusHistory'   => $this->formatStatusHistory($data),
             'serviceProvider' => $this->formatServiceProvider($data),
         ];
 
@@ -199,5 +206,46 @@ class EncounterFHIR
             'system' => 'http://sys-ids.kemkes.go.id/encounter/' . $data['organization_id'],
             'value' => $data['identifier']
         ]];
+    }
+
+    private function formatDiagnosis(array $data): array
+    {
+        if (empty($data['diagnosis'])) {
+            return [];
+        }
+
+        $result = [];
+
+        foreach ($data['diagnosis'] as $item) {
+            $diagnosis = [
+                "condition" => [
+                    "reference" => "Condition/" . $item["condition_id"],
+                ]
+            ];
+
+            if (!empty($item["condition_display"])) {
+                $diagnosis["condition"]["display"] = $item["condition_display"];
+            }
+
+            // coding
+            if (!empty($item["use_code"])) {
+                $diagnosis["use"] = [
+                    "coding" => [[
+                        "system"  => "http://terminology.hl7.org/CodeSystem/diagnosis-role",
+                        "code"    => $item["use_code"],
+                        "display" => $item["use_display"] ?? null,
+                    ]]
+                ];
+            }
+
+            // rank optional
+            if (!empty($item["rank"])) {
+                $diagnosis["rank"] = (int) $item["rank"];
+            }
+
+            $result[] = $diagnosis;
+        }
+
+        return $result;
     }
 }

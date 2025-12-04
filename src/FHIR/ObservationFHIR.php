@@ -145,4 +145,6 @@ class ObservationFHIR
 
         return $result;
     }
+
+    private function formatValueCodeableConcept(array $data) {}
 }
